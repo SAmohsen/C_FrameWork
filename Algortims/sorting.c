@@ -14,27 +14,6 @@ static void makeSwap(int *a, int *b) {
 	*b = *a;
 	*a = temp;
 }
-/*
- * swap without using temp variable
- * 1
- void makeSwap(int *a , int *b )
- {
- *a = *a+*b ;
- *b =  *a - *b ;
- *a =  *a - *b ;
-
- }
- * 2
- void makeSwap(int *a , int *b )
- {
- *a = *a^*b ;
- *b =  *a ^ *b ;
- *a =  *a ^ *b ;
-
- }
- */
-
-
 void bubbleSort(int *arr, int size) {
 	int min_loc;
 	int i, j;
