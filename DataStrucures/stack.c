@@ -4,49 +4,44 @@
  *  Created on: Dec 4, 2019
  *      Author: sayed
  */
-
+#include <stdlib.h>
 #include "stack.h"
 
-int arr[STACKSIZE];
-static int top = -1;
 
-int fullstack() {
-	if (top == (STACKSIZE - 1)) {
+
+struct Stack* createStack(unsigned int size) {
+	struct Stack *mystack = (struct Stack*) malloc(sizeof(struct Stack));
+	mystack->size = size;
+	mystack->arr = (int*) malloc(sizeof(int) * size);
+	mystack->top = -1;
+	return mystack;
+}
+int isFull(struct Stack *mystack) {
+	if (mystack->top == (mystack->size - 1)) {
 		return 1;
 	}
 	return 0;
 }
-
-int emptystack() {
-	if (top == -1) {
+int isEmpty(struct Stack *mystack) {
+	if (mystack->top == -1) {
 		return 1;
 	}
 	return 0;
 }
-
-void push(int data){
-	if (!fullstack()) {
-		top++;
-		arr[top] = data;
-	} else
-		printf("stack is full");
+void push(struct Stack *mystack, int item) {
+	if (!isFull(mystack)) {
+		mystack->top++;
+		mystack->arr[mystack->top] = item;
+	}
 }
-
-int pop() {
-	int data;
-	if (!emptystack()) {
-		data = arr[top];
-		top--;
-		return data;
-	} else
-		printf("stack is empty..");
-	return 0;
+int pop(struct Stack *mystack) {
+	if (!isEmpty(mystack)) {
+		int item = mystack->arr[mystack->top];
+		mystack->top--;
+		return item;
+	}
+return 0;
 }
-
-int peek() {
-	return arr[top];
-}
-
-int getstacksize() {
-	return top;
+int getstacksize(struct Stack *mystack){
+	return mystack->top+1 ;
 }

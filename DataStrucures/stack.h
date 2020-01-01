@@ -11,11 +11,17 @@
 #define STACKSIZE 10
 #include <stdio.h>
 
-int fullstack() ;
-int emptystack() ;
-void push(int data);
-int pop() ;
-int peek() ;
-int getstacksize() ;
+struct Stack {
+	int top;
+	unsigned int size;
+	int *arr;
 
+};
+
+struct Stack* createStack(unsigned int size) ;
+int isFull(struct Stack *mystack) ;
+int isEmpty(struct Stack *mystack) ;
+void push(struct Stack *mystack, int item) ;
+int pop(struct Stack *mystack) ;
+int getstacksize(struct Stack *mystack);
 #endif /* DATASTRUCURES_STACK_H_ */

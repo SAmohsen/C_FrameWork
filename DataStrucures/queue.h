@@ -8,14 +8,18 @@
 #ifndef DATASTRUCURES_QUEUE_H_
 #define DATASTRUCURES_QUEUE_H_
 
-#include <stdio.h>
+#include <stdlib.h>
+struct Queue
+{  int front, rear, currentsize;
+    unsigned int capacity;
+    int* array;
+};
+#define NAN -1
 
-#define queuesize 10
-
-int fullqueue() ;
-int emptyqueue() ;
-void enqueue(int data) ;
-int dequeue() ;
-void printqueue() ;
+struct Queue* createQueue(unsigned int capacity) ;
+int isQueueFull(struct Queue *myqueue) ;
+int isQueueEmpty(struct Queue *myqueue);
+void enqueue(struct Queue *myqueue, int element) ;
+int dequeue(struct Queue *myqueue);
 
 #endif /* DATASTRUCURES_QUEUE_H_ */

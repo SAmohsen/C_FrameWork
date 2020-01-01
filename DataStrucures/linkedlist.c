@@ -9,13 +9,160 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "linkedlist.h"
-struct node {
-	int data;
-	struct node *next;
-};
+/******************************************************************************
+ * 								Linked List Insertion
+ * ***************************************************************************/
 
-struct node *head = NULL;
+/*inserting element at front of linked list */
+void Slnkdlst_inseartAtfront(struct node **head_ptr, int newdata) {
+	/*Allocating a new node in memory*/
+	struct node *newnode = (struct node*) malloc(sizeof(struct node));
+	/*inserting data */
+	newnode->data = newdata;
+	/*head is pointer points to first node in linked list*/
+	newnode->next = (*head_ptr);
+	/*make head points to my node because it is in front now :"D */
+	(*head_ptr) = newnode;
 
+}
+/*appending element linked list */
+void Slnkdlst_inseartAtEnd(struct node **head_ptr, int newdata) {
+	/*Allocating a new node in memory*/
+	struct node *newnode = (struct node*) malloc(sizeof(struct node));
+	/*inserting data */
+	newnode->data = newdata;
+	/*This new node is going to be the last node, so make next of it as NULL*/
+	newnode->next = NULL;
+	/*iterator to traverse my linked list*/
+	struct node *itr = *head_ptr;
+	while (itr->next != NULL)/*loop until reach the end of linked list*/
+	{
+		itr = itr->next;
+	}
+
+	/* Change the next of last node */
+	itr->next = newnode;
+}
+
+/*insert element at specific position  */
+void Slnkdlst_insertAtPosition(struct node **head_ptr,int pos ,int newdata) {
+	if ((*head_ptr == NULL)||(pos==1))
+	{
+		Slnkdlst_inseartAtfront(head_ptr, newdata);
+	}
+	else
+	{
+		/*Allocating a new node in memory*/
+		struct node *newnode = (struct node*) malloc(sizeof(struct node));
+		/*inserting data */
+		newnode->data = newdata;
+		/*iterator to traverse my linked list*/
+		struct node *prev = *head_ptr;
+		/*iterator to get the required position*/
+		unsigned char itr = 1;
+		while (itr < pos - 1) {
+			prev = prev->next;
+			itr++;
+		}
+		/*fix links*/
+		newnode->next = prev->next;
+		prev->next = newnode;
+	}
+}
+
+
+/*insert element after a specific  node  */
+void Slnkdlst_insertAfterNode(struct node *prevnode , int newdata) {
+	if (prevnode != NULL) {
+		/*Allocating a new node in memory*/
+		struct node *newnode = (struct node*) malloc(sizeof(struct node));
+		/*inserting data */
+		newnode->data = newdata;
+		/*just fix links*/
+		newnode->next = prevnode->next;
+		prevnode->next = newnode;
+	}
+}
+
+/******************************************************************************
+ * 								Linked List Deletions
+ * ***************************************************************************/
+/*delete first element of linked list */
+void Slnkdlst_deleteFront(struct node **head_ptr) {
+	if(*head_ptr!=NULL){
+		struct node *tempnode = *head_ptr ;
+		*head_ptr =tempnode->next ;/* make head points to second element*/
+		free(tempnode);/*delete linked list first element*/
+	}
+}
+
+/*delete last element of linked list */
+void Slnkdlst_deleteLast(struct node **head_ptr) {
+	if(*head_ptr!=NULL){
+		struct node *current = *head_ptr ;/*pointer to the node that should deleted*/
+		struct node *prev = NULL ;/*pointer to previous node to make it last node */
+		while(current->next!=NULL){
+			prev = current;
+			current=current->next;/*loop till reach last node in list*/
+
+		}
+		prev->next=NULL; /*make previous node the last node in list */
+		free(current);/*delete the last node in list */
+
+	}
+}
+/*delete element at specific position in  linked list */
+void Slnkdlst_deleteAtPos(struct node **head_ptr, int pos) {
+	if ((*head_ptr != NULL) && (pos != 1)) {
+		struct node *current = *head_ptr;/*pointer to the node that should deleted*/
+		struct node *prev = NULL;/*pointer to previous node to make it last node */
+		/*iterator to get the required position*/
+		unsigned char itr = 1;
+		while (itr < pos) {
+			prev = current;
+			current = current->next;
+			itr++;/*loop till reach  the desired node*/
+		}
+		prev->next = current->next;
+		free(current);
+	}
+	else
+	{
+		Slnkdlst_deleteFront(head_ptr);
+
+	}
+}
+
+/******************************************************************************
+ * 								Linked List search
+ * ***************************************************************************/
+/*delete element at specific position in  linked list */
+int  Slnkdlst_searchKey(struct node **head_ptr, int key) {
+		int pos = 0;
+		struct node*current = *head_ptr ;/*pointing to first node */
+		while(current!=NULL){
+			++pos ;
+			if(current->data==key){
+				return pos ;
+			}
+			current=current->next ;
+		}
+		return -1;/*element is not in list*/
+
+}
+/******************************************************************************
+ * 								print linked list
+ * ***************************************************************************/
+void Slnkdlst_printList(struct node *node)
+{
+  while (node != NULL)
+  {
+     printf(" %d ", node->data);
+     node = node->next;
+  }
+}
+
+#if 0
 void insertbeginning(int data) {
 	struct node *newnode = (struct node *) malloc(sizeof(struct node));
 	if (head == NULL) {
@@ -157,3 +304,4 @@ int findelement(int key) {
 	return -1;
 }
 
+#endif

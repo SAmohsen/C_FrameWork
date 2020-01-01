@@ -8,58 +8,45 @@
 
 
 #include "queue.h"
-static int rear = -1;
-static int front = -1;
-int arr[queuesize];
 
-int fullqueue() {
-	if (((rear + 1) % queuesize) == front) {
-		return 1;
-	} else
-		return 0;
+struct Queue* createQueue(unsigned int capacity) {
+	/*allocate a new queue in memory */
+	struct Queue *myqueue = (struct Queue*) malloc(sizeof(struct Queue));
+	myqueue->front =0 ;
+	myqueue->rear = 0;
+	myqueue->currentsize=0;
+	myqueue->capacity = capacity;
+	myqueue->array = (int*) malloc(sizeof(int) * capacity);
+	return myqueue;
 }
-
-int emptyqueue() {
-
-	if (rear == front) {
-		return 1;
-	} else
-		return 0;
-
-}
-
-void enqueue(int data) {
-	if (!fullqueue()) {
-		rear = (rear + 1) % queuesize;
-		arr[rear] = data;
-
-	} else
-		printf("queue is full ");
-}
-
-int dequeue() {
-	if (!emptyqueue()) {
-
-		front = (front + 1) % queuesize;
-		int data = arr[front];
-
-		return data;
+int isQueueFull(struct Queue *myqueue) {
+	int fullqueue = 0;
+	if (((myqueue->rear + 1) % myqueue->capacity) == myqueue->front) {
+		fullqueue = 1;
 	}
-	printf("queue  is empty ");
-	return -1;
+	return fullqueue;
 }
-
-void printqueue() {
-	int f = front;
-	int r = rear;
-	while (!emptyqueue()) {
-
-		printf("%d ", dequeue());
-
+int isQueueEmpty(struct Queue *myqueue){
+int emptyqueue = 0 ;
+if (myqueue->rear  == myqueue->front) {
+		emptyqueue = 1;
 	}
-	printf("\n");
-	front = f;
-	rear = r;
-
+return emptyqueue;
+}
+void enqueue(struct Queue *myqueue, int element) {
+	if (!isQueueFull(myqueue)) {
+		myqueue->array[myqueue->rear] = element;
+		myqueue->currentsize=myqueue->currentsize+1;
+		myqueue->rear = (myqueue->rear + 1) % myqueue->capacity;
+	}
+}
+int dequeue(struct Queue *myqueue){
+	if(!isQueueEmpty(myqueue)){
+		int item = myqueue->array[myqueue->front] ;
+		myqueue->currentsize=myqueue->currentsize-1;
+		myqueue->front=(myqueue->front+1) % myqueue->capacity;
+		return item ;
+	}
+	return NAN ;
 }
 
